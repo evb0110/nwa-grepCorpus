@@ -1,0 +1,20 @@
+       <<
+         [ č || n ] ?
+         <$consonant>
+         a
+         $<second>=<$consonant>
+         $<second>
+         [
+           [
+             e
+             <$consonant>
+           ]
+          ||
+           [
+             ī
+             <$consonant>
+             [ a | in | an ]
+           ]
+         ]
+        >>
+
