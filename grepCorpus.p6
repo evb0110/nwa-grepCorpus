@@ -6,25 +6,32 @@ my $vowel = / :m <[aeiouə]> /;
 my $consonant = / <!before <$vowel>> <:L> /;
 
 my $reg = /
-       <<
+      ||
+#========
+       [
+        <<
          [ č || n ] ?
+         i
          <$consonant>
-         a
-         $<second>=<$consonant>
-         $<second>
-	 [
-	   [
-	     e
-	     <$consonant>
-	   ]
-	  ||
-	   [
-	     ī
-	     <$consonant>
-	     [ a | in | an ]
-	   ]
-	 ]
+         <$consonant>
+         e
+         <$consonant>
         >>
+       ]
+#========
+      ||
+
+       [
+        <<
+         [ či || ni ] ?
+         <$consonant>
+         <$consonant>
+         ī
+         <$consonant>
+         [ a | in | an ]
+        >>
+       ]
+#========
          /;
 
 use Colorize;
@@ -66,9 +73,9 @@ for @text -> $currentText {
   my $corpus = $currentText.corpus;
   my @textus = $currentText.textus;
   my @versio = $currentText.versio;
+  my $title = $currentText.title;
+  my $titleColor = ($corpus, $title).join(": ");
   for @textus.kv -> $k, $v {
-    my $title = $currentText.title;
-    my $titleColor = ($corpus, $title).join(": ");
     color( / \N+ /, $under, $filled, $magenta, $titleColor );
     my $textusLine = $v;
     my $versioLine = @versio[$k];
