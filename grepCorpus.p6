@@ -6,32 +6,7 @@ my $vowel = / :m <[aeiouə]> /;
 my $consonant = / <!before <$vowel>> <:L> /;
 
 my $reg = /
-      ||
-#========
-       [
-        <<
-         [ č || n ] ?
-         i
-         <$consonant>
-         <$consonant>
-         e
-         <$consonant>
-        >>
-       ]
-#========
-      ||
-
-       [
-        <<
-         [ či || ni ] ?
-         <$consonant>
-         <$consonant>
-         ī
-         <$consonant>
-         [ a | in | an ]
-        >>
-       ]
-#========
+         ḏmīx
          /;
 
 use Colorize;
@@ -44,9 +19,12 @@ class Text {
   has Str @.versio;
 }
 
-my @dirs = (
-  '/home/evb/MAILRU/Linguae/Maalula/_CORPUS/4. Maalula' ,
-  ); # this can be changed to include all the corpus
+my @dirs = 
+  '/home/evb/MAILRU/Linguae/Maalula/_CORPUS'
+        .IO.dir.grep( ! (* ~~ /TRANS/))
+        .grep(*.d).sort; 
+       # this can be changed to include all the corpus
+
 
 my Text @text;
 
@@ -56,7 +34,8 @@ for @dirs -> $dirText {
     my $title = ~ $file.basename;
     my $number = ~ ( $title ~~ / ^ \d+ / );
     my @textus = $file.lines;
-    my @versio = ($dirTrans ~ '/' ~ $title).IO.lines;
+    my $transfile = ($dirTrans ~ '/' ~ $title).IO;
+    my @versio = $transfile.f ?? $transfile.lines !! "";
     my $currentText =
        Text.new(
          corpus => $dirText.IO.basename,
@@ -78,7 +57,7 @@ for @text -> $currentText {
   for @textus.kv -> $k, $v {
     color( / \N+ /, $under, $filled, $magenta, $titleColor );
     my $textusLine = $v;
-    my $versioLine = @versio[$k];
+    my $versioLine = @versio[$k] // "";
     ($textusLine, $versioLine) .= reverse
          unless $searchTextus;
     if $textusLine ~~ $reg {
