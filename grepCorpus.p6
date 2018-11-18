@@ -3,7 +3,11 @@
 constant $searchTextus = True;
 
 my $vowel = / :m <[aeiouə]> /;
-my $consonant = / <!before <$vowel>> <:L> /;
+my $consonant = /
+                  <!before <$vowel>>
+                  <!before <[ʔwy]>>
+                  <:L>
+                /;
 
 my $reg = /
       ||
