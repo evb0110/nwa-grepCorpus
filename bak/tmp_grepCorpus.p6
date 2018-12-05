@@ -10,14 +10,7 @@ my $consonant = /
                 /;
 
 my $reg = /
-         $consonant
-         a
-         $<second>=$consonant
-         $<second>
-         e
-         $consonant
-         ' '
-         ana
+         $
          /;
 
 use Colorize;
