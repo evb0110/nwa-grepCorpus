@@ -10,14 +10,12 @@ my $consonant = /
                 /;
 
 my $reg = /
-         $consonant
-         a
-         $<second>=$consonant
-         $<second>
-         e
-         $consonant
-         ' '
-         ana
+      | ōče
+      | ōće
+      | ōči
+      | ōći
+      | ačim
+      | aćim
          /;
 
 use Colorize;
@@ -31,7 +29,7 @@ class Text {
 }
 
 my @dirs = 
-  '/home/evb/MAILRU/Linguae/Maalula/_CORPUS'
+  '/media/evb/DATA/GDRIVE/EVB/_MAILRU/Linguae/Maalula/_CORPUS'
         .IO.dir.grep( ! (* ~~ /TRANS | git/))
         .grep(*.d).sort; 
        # this can be changed to include all the corpus
